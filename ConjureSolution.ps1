@@ -6,7 +6,7 @@ $PW= Read-Host -Prompt "Enter Your Database Password"
 $conn= Read-Host -Prompt "Enter Your TNS Name Connection"
 
 
-#$UserName= "LAB3"
+#$UserName= "UD_DAVBUI"
 #$PW= "Section1"
 #$conn= "FREEPDB1"
 #$ProjectName= "WebRest"

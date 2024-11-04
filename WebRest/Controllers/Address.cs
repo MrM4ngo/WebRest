@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,47 +13,46 @@ namespace WebRest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GendersController : ControllerBase, iController<Gender>
+    public class AddressController : ControllerBase, iController<Address>
     {
         private readonly WebRestOracleContext _context;
 
-        public GendersController(WebRestOracleContext context)
+        public AddressController(WebRestOracleContext context)
         {
             _context = context;
         }
 
-        // GET: api/Genders
+        // GET: api/Addresses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Gender>>> Get()
+        public async Task<ActionResult<IEnumerable<Address>>> Get()
         {
-            return await _context.Genders.ToListAsync();
+            return await _context.Addresses.ToListAsync();
         }
 
-        // GET: api/Genders/5
+        // GET: api/Addresses/5
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Gender>> Get(string id)
+        public async Task<ActionResult<Address>> Get(string id)
         {
-            var gender = await _context.Genders.FindAsync(id);
+            var Address = await _context.Addresses.FindAsync(id);
 
-            if (gender == null)
+            if (Address == null)
             {
                 return NotFound();
             }
 
-            return gender;
+            return Address;
         }
 
-        // PUT: api/Genders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/Addresses/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, Gender gender)
+        public async Task<IActionResult> Put(string id, Address Address)
         {
-            if (id != gender.GenderId)
+            if (id != Address.AddressId)
             {
                 return BadRequest();
             }
-            _context.Genders.Update(gender);
+            _context.Addresses.Update(Address);
 
 
 
@@ -63,7 +62,7 @@ namespace WebRest.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!GenderExists(id))
+                if (!AddressExists(id))
                 {
                     return NotFound();
                 }
@@ -76,36 +75,35 @@ namespace WebRest.Controllers
             return NoContent();
         }
 
-        // POST: api/Genders
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/Addresses
         [HttpPost]
-        public async Task<ActionResult<Gender>> Post(Gender gender)
+        public async Task<ActionResult<Address>> Post(Address Address)
         {
-            _context.Genders.Add(gender);
+            _context.Addresses.Add(Address);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGender", new { id = gender.GenderId }, gender);
+            return CreatedAtAction("GetAddress", new { id = Address.AddressId }, Address);
         }
 
-        // DELETE: api/Genders/5
+        // DELETE: api/Addresses/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var gender = await _context.Genders.FindAsync(id);
-            if (gender == null)
+            var Address = await _context.Addresses.FindAsync(id);
+            if (Address == null)
             {
                 return NotFound();
             }
 
-            _context.Genders.Remove(gender);
+            _context.Addresses.Remove(Address);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool GenderExists(string id)
+        private bool AddressExists(string id)
         {
-            return _context.Genders.Any(e => e.GenderId == id);
+            return _context.Addresses.Any(e => e.AddressId == id);
         }
     }
 }

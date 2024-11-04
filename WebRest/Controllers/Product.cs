@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,56 +6,54 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
+using WebRest.Interfaces;
 using WebRestEF.EF.Data;
 using WebRestEF.EF.Models;
-using WebRest.Interfaces;
+
 namespace WebRest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GendersController : ControllerBase, iController<Gender>
+    public class ProductController : ControllerBase, iController<Product>
     {
         private readonly WebRestOracleContext _context;
 
-        public GendersController(WebRestOracleContext context)
+        public ProductController(WebRestOracleContext context)
         {
             _context = context;
         }
 
-        // GET: api/Genders
+        // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Gender>>> Get()
+        public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
-            return await _context.Genders.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
-        // GET: api/Genders/5
+        // GET: api/Products/5
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Gender>> Get(string id)
+        public async Task<ActionResult<Product>> Get(string id)
         {
-            var gender = await _context.Genders.FindAsync(id);
+            var Product = await _context.Products.FindAsync(id);
 
-            if (gender == null)
+            if (Product == null)
             {
                 return NotFound();
             }
 
-            return gender;
+            return Product;
         }
 
-        // PUT: api/Genders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/Products/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, Gender gender)
+        public async Task<IActionResult> Put(string id, Product Product)
         {
-            if (id != gender.GenderId)
+            if (id != Product.ProductId)
             {
                 return BadRequest();
             }
-            _context.Genders.Update(gender);
-
-
+            _context.Products.Update(Product);
 
             try
             {
@@ -63,7 +61,7 @@ namespace WebRest.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!GenderExists(id))
+                if (!ProductExists(id))
                 {
                     return NotFound();
                 }
@@ -76,36 +74,35 @@ namespace WebRest.Controllers
             return NoContent();
         }
 
-        // POST: api/Genders
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/Products
         [HttpPost]
-        public async Task<ActionResult<Gender>> Post(Gender gender)
+        public async Task<ActionResult<Product>> Post(Product Product)
         {
-            _context.Genders.Add(gender);
+            _context.Products.Add(Product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGender", new { id = gender.GenderId }, gender);
+            return CreatedAtAction("GetProduct", new { id = Product.ProductId }, Product);
         }
 
-        // DELETE: api/Genders/5
+        // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var gender = await _context.Genders.FindAsync(id);
-            if (gender == null)
+            var Product = await _context.Products.FindAsync(id);
+            if (Product == null)
             {
                 return NotFound();
             }
 
-            _context.Genders.Remove(gender);
+            _context.Products.Remove(Product);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool GenderExists(string id)
+        private bool ProductExists(string id)
         {
-            return _context.Genders.Any(e => e.GenderId == id);
+            return _context.Products.Any(e => e.ProductId == id);
         }
     }
 }
